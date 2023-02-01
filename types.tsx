@@ -3,33 +3,63 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
+    namespace ReactNavigation {
+        interface RootParamList extends RootStackParamList {}
+    }
 }
 
 export type RootStackParamList = {
-  Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  Modal: undefined;
-  NotFound: undefined;
+    Main: undefined;
+    Detail: { regionType: string; regionName: string };
 };
 
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
-  RootStackParamList,
-  Screen
->;
+export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<RootStackParamList, Screen>;
 
-export type RootTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+export type SvgRegionProps = { color: string; size: string };
+
+export type RegionProps = {
+    regionType: string;
+    regionName?: string;
+    pressable: boolean;
+    pLeft?: number;
+    pTop?: number;
+    size: string;
 };
 
-export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
-  BottomTabScreenProps<RootTabParamList, Screen>,
-  NativeStackScreenProps<RootStackParamList>
->;
+export type MountainProps = {
+    mountainId: number;
+    mountainName: string;
+    positionX: number;
+    positionY: number;
+    flag: boolean;
+};
+
+export type MountainObj = {
+    mountainId: number;
+    mountainName: string;
+    regionType: string;
+    regionName: string;
+    location: string;
+    positionX: number;
+    positionY: number;
+    flag: boolean;
+};
+
+export type ModalProps = {
+    visible: boolean;
+    message: string;
+    type: string;
+    buttonTexts: Array<string>;
+    image: string;
+};
+
+export type ShowModalProps = {
+    message: string;
+    type: string;
+    buttonTexts: Array<string>;
+    async: boolean;
+    image?: string;
+};
