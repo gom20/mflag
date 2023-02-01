@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import mountainJson from '../mountains.json';
 import { MountainObj } from '../types';
 
@@ -13,10 +13,20 @@ const mountainSlice = createSlice({
         reset: (state) => {
             Object.assign(state, initialState);
         },
-        putFlag: (state) => {
-            // state.mountains.
+        putFlag: (state, action: PayloadAction<number>) => {
+            console.log(action);
+            const selected = state.mountains.find(
+                (mountain) => mountain.mountainId == action.payload
+            );
+            if (selected) selected.flag = true;
         },
-        drawFlag: (state) => {},
+        removeFlag: (state, action: PayloadAction<number>) => {
+            console.log(action);
+            const selected = state.mountains.find(
+                (mountain) => mountain.mountainId == action.payload
+            );
+            if (selected) selected.flag = false;
+        },
     },
 });
 
@@ -29,7 +39,10 @@ export const selectMountainsByRegion = (state: any, regionType: string) => {
 };
 
 export const selectFlagCountByRegion = (state: any, regionType: string) => {
-    return state.mountains.filter((mountain: MountainObj) => mountain.regionType == regionType && mountain.flag == true).length;
+    return state.mountains.filter(
+        (mountain: MountainObj) => mountain.regionType == regionType && mountain.flag == true
+    ).length;
 };
 
+export const { reset, putFlag, removeFlag } = mountainSlice.actions;
 export default mountainSlice.reducer;

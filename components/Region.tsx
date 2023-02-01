@@ -5,14 +5,30 @@ import { useSelector } from 'react-redux';
 import { selectMountainsByRegion } from '../slices/mountainSlice';
 import { MountainObj, RegionProps } from '../types';
 import { Image } from 'react-native';
-// import { selectStampsByRegion } from '../../../slices/stampSlice';
-import { ChungbukSvg, ChungnamSvg, GangwonSvg, GyeongbukSvg, GyeongnamSvg, JejuSvg, JeonbukSvg, JeonnamSvg, SeoulGeonggiSvg } from './SvgRegion';
+import {
+    ChungbukSvg,
+    ChungnamSvg,
+    GangwonSvg,
+    GyeongbukSvg,
+    GyeongnamSvg,
+    JejuSvg,
+    JeonbukSvg,
+    JeonnamSvg,
+    SeoulGeonggiSvg,
+} from './SvgRegion';
 
 export function Region({ regionType, regionName, pressable, pLeft, pTop, size }: RegionProps) {
     const [regionColor, setRegionColor] = useState('#E1F7CB');
     const navigation = useNavigation();
-    const mountains = useSelector((state: any) => selectMountainsByRegion(state.mountain, regionType));
-    const flag = mountains.length > 0 ? (mountains.find((mountain: MountainObj) => mountain.flag == false) ? false : true) : false;
+    const mountains = useSelector((state: any) =>
+        selectMountainsByRegion(state.mountain, regionType)
+    );
+    const flag =
+        mountains.length > 0
+            ? mountains.find((mountain: MountainObj) => mountain.flag == false)
+                ? false
+                : true
+            : false;
 
     const handleRegionPress = () => {
         navigation.navigate('Detail', {

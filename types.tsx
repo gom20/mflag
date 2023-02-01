@@ -16,7 +16,10 @@ export type RootStackParamList = {
     Detail: { regionType: string; regionName: string };
 };
 
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<RootStackParamList, Screen>;
+export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
+    RootStackParamList,
+    Screen
+>;
 
 export type SvgRegionProps = { color: string; size: string };
 
@@ -35,6 +38,7 @@ export type MountainProps = {
     positionX: number;
     positionY: number;
     flag: boolean;
+    onPress: Function;
 };
 
 export type MountainObj = {
@@ -58,8 +62,8 @@ export type ModalProps = {
 
 export type ShowModalProps = {
     message: string;
-    type: string;
-    buttonTexts: Array<string>;
-    async: boolean;
+    type?: string;
+    buttonTexts?: Array<string>;
+    async?: boolean;
     image?: string;
 };

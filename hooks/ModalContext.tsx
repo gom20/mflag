@@ -3,7 +3,7 @@ import { ModalProps, ShowModalProps } from '../types';
 
 interface IModalContext {
     modalProps: ModalProps;
-    showModal: (arg0: ShowModalProps) => Promise<Boolean> | void;
+    showModal: (arg0: ShowModalProps) => Promise<boolean> | void;
     hideModal: (arg0: boolean) => void;
 }
 
@@ -15,7 +15,7 @@ const ModalContext = createContext<IModalContext>({
         buttonTexts: [],
         image: '',
     },
-    showModal: function (arg0: ShowModalProps): void | Promise<Boolean> {
+    showModal: function (arg0: ShowModalProps) {
         throw new Error('Function not implemented.');
     },
     hideModal: function (arg0: boolean): void {

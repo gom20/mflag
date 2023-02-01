@@ -1,33 +1,53 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { BackHandler, StyleSheet, Text, ToastAndroid, View } from 'react-native';
+import Confetti from 'react-native-confetti';
 import { useSelector } from 'react-redux';
 import Region from '../components/Region';
 import regions from '../regions.json';
 import { selectFlagCount } from '../slices/mountainSlice';
-// import { useDispatch } from 'react-redux';
 
 export default function MainScreen() {
-    // const dispatch = useDispatch();
     const mountains = useSelector((state: any) => state.mountain.mountains);
-    const putFlagCount = useSelector((state: any) => selectFlagCount(state.mountain));
-    // let confettiRef;
+    const flagCount = useSelector((state: any) => selectFlagCount(state.mountain));
 
-    // useEffect(() => {
-    //     console.log('[StampMainScreen] useEffect');
-    //     dispatch(getStamps());
-    // }, []);
+    let confettiRef: any;
 
-    // useEffect(() => {
-    //     console.log('[StampMainScreen] useEffect flagCount updated');
-    //     if (flagCount == 100) {
-    //         confettiRef.startConfetti();
-    //     }
-    // }, [flagCount]);
+    useEffect(() => {
+        console.log('useEffect flagCount updated');
+        if (flagCount == 100) {
+            confettiRef.startConfetti();
+        }
+    }, [flagCount]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            let exit: boolean;
+            let timeout: NodeJS.Timeout;
+            const onBackPress = () => {
+                if (!exit) {
+                    ToastAndroid.show('한번 더 누르시면 종료됩니다.', ToastAndroid.SHORT);
+                    exit = true;
+                    timeout = setTimeout(() => {
+                        exit = false;
+                    }, 2000);
+                } else {
+                    exit = false;
+                    clearTimeout(timeout);
+                    BackHandler.exitApp();
+                }
+                return true;
+            };
+
+            const subscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+            return () => subscription.remove();
+        }, [])
+    );
 
     return (
         <View style={styles.container}>
-            {/* <Confetti ref={(ref) => (confettiRef = ref)} duration={6000} confettiCount={30} /> */}
-            <Text style={styles.text}>도전! 100대 명산!</Text>
+            <Confetti ref={(ref) => (confettiRef = ref)} duration={6000} confettiCount={30} />
+            {/* <Text style={styles.text}>도전! 100대 명산!</Text> */}
             <Text style={styles.text}>정상에 깃발꽂기!</Text>
             <Text style={styles.smallText}>
                 100대 명산 얼마나 가봤나요?{'\n'}
@@ -41,7 +61,7 @@ export default function MainScreen() {
                             color: '#FFFFFF',
                             fontWeight: '600',
                         }}>
-                        {putFlagCount}
+                        {flagCount}
                     </Text>
                 </View>
                 <Text style={styles.totalCount}> / {mountains.length}</Text>
@@ -80,6 +100,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         textAlign: 'center',
         fontWeight: '600',
+        fontFamily: 'Jalnan',
     },
     smallText: {
         textAlign: 'center',

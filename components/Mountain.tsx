@@ -2,15 +2,21 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { ModalContext } from '../hooks/ModalContext';
 import { MountainProps } from '../types';
 import { useContext } from 'react';
-// import { updateStamp } from '../../../slices/stampSlice';
+import { useDispatch } from 'react-redux';
+import { putFlag, removeFlag } from '../slices/mountainSlice';
 
-export function Mountain({ mountainId, mountainName, positionX, positionY, flag }: MountainProps) {
-    // const dispatch = useDispatch();
+export function Mountain({
+    mountainId,
+    mountainName,
+    positionX,
+    positionY,
+    flag,
+    onPress,
+}: MountainProps) {
+    const dispatch = useDispatch();
     const { showModal } = useContext(ModalContext);
 
     const handleMountainPress = async () => {
-        console.log('[Stamp] onStampPressed');
-
         const confirmMessage = flag ? '에서 깃발을 회수하시겠습니까?' : '에 깃발을 꽂으시겠습니까?';
         const confirmButtonText = flag ? '네! 회수하기' : '네! 깃발꽂기';
         const response = await showModal({
@@ -21,17 +27,12 @@ export function Mountain({ mountainId, mountainName, positionX, positionY, flag 
         });
         if (!response) return;
 
-        // dispatch(
-        //     updateStamp({
-        //         mountainId: mountainId,
-        //         flag: !flag,
-        //     })
-        // )
-        //     .unwrap()
-        //     .then((response) => {
-        //         onPressed(!flag);
-        //     })
-        //     .catch((error) => {});
+        if (flag) {
+            dispatch(removeFlag(mountainId));
+        } else {
+            dispatch(putFlag(mountainId));
+        }
+        onPress(!flag);
     };
 
     return (

@@ -26,9 +26,20 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerShadowVisible: false,
+            }}>
             <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="Detail" component={DetailScreen} options={{ headerShown: false }} />
+            <Stack.Screen
+                name="Detail"
+                component={DetailScreen}
+                options={{
+                    headerShown: true,
+                    title: '도전 100대 명산',
+                    headerTitleAlign: 'center',
+                }}
+            />
         </Stack.Navigator>
     );
 }

@@ -11,7 +11,7 @@ export default function useModal() {
     };
 
     const [modalProps, setModalProps] = useState(initialState);
-    const resolveRef = useRef<HTMLInputElement>(null);
+    const resolveRef = useRef<Function>();
 
     const showModal = ({
         message = '',
@@ -19,7 +19,7 @@ export default function useModal() {
         async = false,
         buttonTexts = ['확인'],
         image,
-    }: ShowModalProps): Promise<Boolean> | void => {
+    }: ShowModalProps): Promise<boolean> | void => {
         setModalProps({
             visible: true,
             message,
@@ -29,8 +29,8 @@ export default function useModal() {
         });
 
         if (async) {
-            return new Promise<Boolean>((resolve) => {
-                // resolveRef.current = resolve;
+            return new Promise((resolve) => {
+                resolveRef.current = resolve;
             });
         }
     };
@@ -38,7 +38,7 @@ export default function useModal() {
     const hideModal = (flag: boolean): void => {
         setModalProps(initialState);
         if (resolveRef.current) {
-            // resolveRef.current(flag);
+            resolveRef.current(flag);
         }
     };
 
