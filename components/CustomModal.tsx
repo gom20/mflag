@@ -28,7 +28,7 @@ const CustomModal = ({}) => {
                                 ? modalProps.image
                                 : require('../assets/images/flag.png')
                         }
-                        style={{ marginTop: '10%' }}></Image>
+                        style={{ width: 60, height: 60, marginTop: '10%' }}></Image>
                 )}
                 <Text style={styles.contentText}>{modalProps.message}</Text>
                 <View style={styles.line}></View>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         borderColor: '#FFFFFF',
     },
     contentText: {
-        marginTop: 10,
+        // marginTop: 10,
         marginBottom: 10,
         padding: 20,
         textAlign: 'center',

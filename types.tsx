@@ -35,6 +35,8 @@ export type RegionProps = {
 export type MountainProps = {
     mountainId: number;
     mountainName: string;
+    altitude: number;
+    location: string;
     positionX: number;
     positionY: number;
     flag: boolean;
@@ -46,6 +48,7 @@ export type MountainObj = {
     mountainName: string;
     regionType: string;
     regionName: string;
+    altitude: number;
     location: string;
     positionX: number;
     positionY: number;

@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useAppSelector } from '../hooks/hooks';
 import { selectMountainsByRegion } from '../slices/mountainSlice';
+import { RootState } from '../store';
 import { MountainObj, RegionProps } from '../types';
-import { Image } from 'react-native';
 import {
     ChungbukSvg,
     ChungnamSvg,
@@ -20,7 +20,7 @@ import {
 export function Region({ regionType, regionName, pressable, pLeft, pTop, size }: RegionProps) {
     const [regionColor, setRegionColor] = useState('#E1F7CB');
     const navigation = useNavigation();
-    const mountains = useSelector((state: any) =>
+    const mountains = useAppSelector((state: RootState) =>
         selectMountainsByRegion(state.mountain, regionType)
     );
     const flag =
@@ -69,8 +69,8 @@ export function Region({ regionType, regionName, pressable, pLeft, pTop, size }:
                             width: 15,
                             height: 15,
                             position: 'absolute',
-                            top: -15,
-                            left: '45%',
+                            top: -13,
+                            left: '46%',
                         },
                     ]}
                     source={require('../assets/images/flag.png')}
@@ -100,7 +100,9 @@ export function Region({ regionType, regionName, pressable, pLeft, pTop, size }:
                         onTouchStart={() => setRegionColor('#0DD36E')}
                         onTouchEnd={() => setRegionColor('#E1F7CB')}
                         style={styles.regionPressableContainer}>
-                        <Image source={require('../assets/images/mountain-icon.png')}></Image>
+                        <Image
+                            source={require('../assets/images/mountain-icon.png')}
+                            style={{ width: 21, height: 16 }}></Image>
                         <Text>{regionName}</Text>
                     </Pressable>
                 </View>

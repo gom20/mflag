@@ -15,7 +15,6 @@ export default function useCachedResources() {
                 // Load fonts
                 await Font.loadAsync({
                     ...FontAwesome.font,
-                    'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
                     Jalnan: require('../assets/fonts/Jalnan.ttf'),
                 });
             } catch (e) {

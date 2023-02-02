@@ -1,29 +1,36 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import { ModalContext } from '../hooks/ModalContext';
-import { MountainProps } from '../types';
 import { useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useAppDispatch } from '../hooks/hooks';
+import { ModalContext } from '../hooks/ModalContext';
 import { putFlag, removeFlag } from '../slices/mountainSlice';
+import { MountainProps } from '../types';
 
 export function Mountain({
     mountainId,
     mountainName,
+    altitude,
+    location,
     positionX,
     positionY,
     flag,
     onPress,
 }: MountainProps) {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const { showModal } = useContext(ModalContext);
 
     const handleMountainPress = async () => {
-        const confirmMessage = flag ? '에서 깃발을 회수하시겠습니까?' : '에 깃발을 꽂으시겠습니까?';
+        let confirmMessage = mountainName + '\n고도: ' + altitude + 'm\n\n';
+        confirmMessage += flag ? '깃발을 회수하시겠습니까?' : '깃발을 꽂으시겠습니까?';
         const confirmButtonText = flag ? '네! 회수하기' : '네! 깃발꽂기';
+        const imageFile = flag
+            ? require('../assets/images/mountain-flag.png')
+            : require('../assets/images/mountain.png');
         const response = await showModal({
             async: true,
             type: 'confirm',
-            message: mountainName + confirmMessage,
+            message: confirmMessage,
             buttonTexts: ['아니오', confirmButtonText],
+            image: imageFile,
         });
         if (!response) return;
 
@@ -56,7 +63,9 @@ export function Mountain({
                     handleMountainPress();
                 }}
                 style={styles.pressableContainer}>
-                <Image source={require('../assets/images/mountain-icon.png')}></Image>
+                <Image
+                    source={require('../assets/images/mountain-icon.png')}
+                    style={{ width: 21, height: 16 }}></Image>
                 <Text style={[styles.text, { color: flag ? '#000000' : '#949494' }]}>
                     {mountainName}
                 </Text>

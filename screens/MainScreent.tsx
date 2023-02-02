@@ -1,22 +1,34 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useEffect } from 'react';
-import { BackHandler, StyleSheet, Text, ToastAndroid, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { BackHandler, StyleSheet, Text, ToastAndroid, View, Image } from 'react-native';
 import Confetti from 'react-native-confetti';
-import { useSelector } from 'react-redux';
 import Region from '../components/Region';
+import { useAppSelector } from '../hooks/hooks';
 import regions from '../regions.json';
 import { selectFlagCount } from '../slices/mountainSlice';
+import { RootState } from '../store';
 
 export default function MainScreen() {
-    const mountains = useSelector((state: any) => state.mountain.mountains);
-    const flagCount = useSelector((state: any) => selectFlagCount(state.mountain));
+    const mountains = useAppSelector((state: RootState) => state.mountain.mountains);
+    const flagCount = useAppSelector((state: RootState) => selectFlagCount(state.mountain));
 
-    let confettiRef: any;
+    const defaultMessage = '100대 명산 얼마나 가봤나요?\n지금까지 가본 산에 깃발을 꽂아보세요.';
+    const completedMessage = '대단해요!\n깃발을 모두 꽂았어요!\n당신은 이제 진정산 등산왕!';
+    const defaultColor = '#0DD36E';
+    const completedColor = '#D95B3B';
+    const [color, setColor] = useState(defaultColor);
+    const [message, setMessage] = useState(defaultMessage);
+
+    let confettiRef: Confetti | any;
 
     useEffect(() => {
-        console.log('useEffect flagCount updated');
         if (flagCount == 100) {
             confettiRef.startConfetti();
+            setColor(completedColor);
+            setMessage(completedMessage);
+        } else {
+            setColor(defaultColor);
+            setMessage(defaultMessage);
         }
     }, [flagCount]);
 
@@ -47,14 +59,22 @@ export default function MainScreen() {
     return (
         <View style={styles.container}>
             <Confetti ref={(ref) => (confettiRef = ref)} duration={6000} confettiCount={30} />
-            {/* <Text style={styles.text}>도전! 100대 명산!</Text> */}
-            <Text style={styles.text}>정상에 깃발꽂기!</Text>
-            <Text style={styles.smallText}>
-                100대 명산 얼마나 가봤나요?{'\n'}
-                지금까지 가본 산에 깃발을 꽂아보세요.
-            </Text>
+            {flagCount == 100 && (
+                <Image
+                    source={require('../assets/images/totalstamp.png')}
+                    style={{
+                        position: 'absolute',
+                        top: 15,
+                        right: 20,
+                        width: 110,
+                        height: 110,
+                        transform: [{ rotate: '20deg' }],
+                    }}></Image>
+            )}
+            <Text style={styles.text}>도전! 100대 명산</Text>
+            <Text style={styles.smallText}>{message}</Text>
             <View style={styles.countContainer}>
-                <View style={styles.stampCount}>
+                <View style={[styles.stampCount, { backgroundColor: color }]}>
                     <Text
                         style={{
                             fontSize: 25,
@@ -94,13 +114,16 @@ export default function MainScreen() {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20,
-        paddingVertical: 60,
+        paddingVertical: 10,
     },
     text: {
+        fontSize: 27,
+        textAlign: 'center',
+        fontFamily: 'Jalnan',
+    },
+    title: {
         fontSize: 25,
         textAlign: 'center',
-        fontWeight: '600',
-        fontFamily: 'Jalnan',
     },
     smallText: {
         textAlign: 'center',
@@ -108,6 +131,7 @@ const styles = StyleSheet.create({
         marginVertical: '2%',
     },
     countContainer: {
+        marginTop: 20,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -115,7 +139,7 @@ const styles = StyleSheet.create({
     stampCount: {
         width: 50,
         height: 50,
-        backgroundColor: '#0DD36E',
+
         borderRadius: 30,
         justifyContent: 'center',
         alignItems: 'center',
