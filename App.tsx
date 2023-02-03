@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { Provider } from 'react-redux';

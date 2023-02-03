@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "마운틴고",
-    "slug": "mago",
+    "name": "등산왕",
+    "slug": "mflag",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/splash-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,11 +23,11 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "gom.gogos.mago"
+      "package": "gom.gogos.mflag"
     },
     "extra": {
       "eas": {
-        "projectId": "c4d8fa5f-7625-47ad-90f8-daaf7967b674"
+        "projectId": "6b0ce4bc-8a1f-4f0b-a572-46cb363a1160"
       }
     }
   }

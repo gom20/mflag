@@ -72,6 +72,8 @@ function RootNavigator() {
                     headerShown: true,
                     title: '도전 100대 명산',
                     headerTitleAlign: 'center',
+                    animationTypeForReplace: 'push',
+                    animation: 'slide_from_right',
                 }}
             />
         </Stack.Navigator>
