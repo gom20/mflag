@@ -23,7 +23,7 @@ export default function App() {
                     <PersistGate loading={null} persistor={persistor}>
                         <ModalProvider>
                             <Navigation colorScheme={colorScheme} />
-                            <StatusBar />
+                            <StatusBar style="dark" backgroundColor="#FFFFFF" />
                         </ModalProvider>
                     </PersistGate>
                 </Provider>
